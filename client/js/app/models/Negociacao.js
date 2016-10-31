@@ -12,15 +12,15 @@ class Negociacao {
     }
 
     get quantidade() {
-        return _quantidade;
+        return this._quantidade;
     }
 
     get data() {
-        return new Date(_data.getTime());
+        return new Date(this._data.getTime());
     }
 
     get valor() {
-        return _valor;
+        return this._valor;
     }
 
 }
