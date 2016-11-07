@@ -1,11 +1,13 @@
-var ConnectionFacotry = (function () {
+var ConnectionFactory = (function () {
 
-    var stores = ['negociacoes'];
-    var version = 4;
-    var dbName = 'aluraframe'
+    const stores = ['negociacoes'];
+    const version = 4;
+    const dbName = 'aluraframe'
+
     var connection = null;
+    var close = null;
 
-    return class ConnectionFacotry {
+    return class ConnectionFactory {
 
         constructor() {
             throw new Error('Não é possivel criar instancia de ConnectionFactory');
@@ -16,15 +18,19 @@ var ConnectionFacotry = (function () {
                 let openRequest = window.indexedDB.open(dbName, version);
 
                 openRequest.onupgradeneeded = e => {
-                    ConnectionFacotry._createStores(e.target.result);
+                    ConnectionFactory._createStores(e.target.result);
                 };
 
                 openRequest.onsuccess = e => {
-                    if(connection) {
-                        resolve(conection);
-                    }else {
-                        resolve(e.target.result);
+                    if(!connection) {
+                        connection = e.target.result;
+                        close = connection.close.bind(connection);
+                        connection.close = function () {
+                            throw new Error('Você não pode fechar diretamente a conexão.')
+                        };
                     }
+                    resolve(connection);
+                    
                 };
 
                 openRequest.onerror = e => {
@@ -41,6 +47,14 @@ var ConnectionFacotry = (function () {
                 }
                 connection.createObjectStore(store, {autoincrement: true});
             });
+        }
+
+        static closeConnection() {
+            if(connection) {
+                close();
+                connection = null;
+            }
+
         }
     }
 })();
