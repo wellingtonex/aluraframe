@@ -9,7 +9,7 @@
     <script>
         
         var connection;
-        var openRequest = window.indexedDB.open('aluraFrame', 4);
+        var openRequest = window.indexedDB.open('aluraframe', 4);
         openRequest.onupgradeneeded = e => {
             console.log('Cria ou altera um banco existente.');
             let minhaConnection = e.target.result;
