@@ -19,7 +19,11 @@ class NegociacaoController {
             'texto');    
             
         this._ordemAtual = '';
+        this._init();
         
+    }
+
+    _init() {
         ConnectionFactory
             .getConnection()
             .then(connection => new NegociacaoDao(connection))
@@ -27,6 +31,8 @@ class NegociacaoController {
             .then(negociacoes => negociacoes.forEach(negociacao => 
                 this._listaNegociacoes.adiciona(negociacao)))
             .catch(erro => this._mensagem.texto = erro);
+
+        setInterval(() => this.importaNegociacoes(), 3000);
     }
     
     adiciona(event) {

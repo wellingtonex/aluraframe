@@ -10,7 +10,6 @@ class NegociacaoService {
         return this._http
             .get('negociacoes/semana')
             .then(negociacoes => {
-                console.log(negociacoes);
                 return negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor));
             })
             .catch(erro => {
@@ -24,7 +23,6 @@ class NegociacaoService {
         return this._http
             .get('negociacoes/anterior')
             .then(negociacoes => {
-                console.log(negociacoes);
                 return negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor));
             })
             .catch(erro => {
@@ -38,7 +36,6 @@ class NegociacaoService {
         return this._http
             .get('negociacoes/retrasada')
             .then(negociacoes => {
-                console.log(negociacoes);
                 return negociacoes.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor));
             })
             .catch(erro => {
