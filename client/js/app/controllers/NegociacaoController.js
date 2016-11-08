@@ -7,7 +7,8 @@ class NegociacaoController {
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
-         
+
+        new NegociacaoDao() 
         this._listaNegociacoes = new Bind(
             new ListaNegociacoes(), 
             new NegociacoesView($('#negociacoesView')), 
@@ -17,7 +18,19 @@ class NegociacaoController {
             new Mensagem(), new MensagemView($('#mensagemView')),
             'texto');    
             
-        this._ordemAtual = ''               
+        this._ordemAtual = '';
+
+        ConnectionFactory
+            .getConnection()
+            .then((connection) => {
+                new NegociacaoDao(connection)
+                    .listaTodos()
+                    .then((negociacoes) => {
+                        negociacoes.forEach(negociacao => {
+                            this._listaNegociacoes.adiciona(negociacao);
+                        });
+                    });
+            }).catch(erro => this._mensagem.texto = erro);
     }
     
     adiciona(event) {
