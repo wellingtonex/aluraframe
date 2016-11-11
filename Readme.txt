@@ -35,3 +35,5 @@ npm install babel-plugin-transform-es2015-modules-systemjs@6.9.0 --save-dev
 npm run build
 npm run watch
 
+Para lidar também com o o IndexedDB outros desenvolvedores tornaram públicas suas bibliotecas. Por exemplo, há o Dexie e o Db.js, este último utiliza promises assim como fizemos.
+
